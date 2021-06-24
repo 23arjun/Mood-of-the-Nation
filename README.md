@@ -25,7 +25,7 @@ This file contains all the html, css and javascript used to design the website
 
 This file contains the function to find the 20 most common words in a collection of tweets. 
 
-- Locations mentioned in Tweets
+- locations_fromTweets.js
 
 This file contains the function to find all the locations mentioned in tweets. 
    
