@@ -1,0 +1,2149 @@
+<html>
+<head>
+	<title>Map & Cloud</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+	<style>
+
+		body {
+			background: linear-gradient(to bottom, white, #049cfc, #00ff11, #fbff00, #fc7600, #cc2316, purple);
+			background-size: 100%;
+			background-repeat: no-repeat;
+			margin: 0;
+			font-size: 1.15rem;
+			line-height: 1.4em;
+			align-items: center;
+			snap-snap-type: y proximity;
+		}
+
+		body:before{
+			content:'';
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			width: 100%;
+			z-index: -1;
+			background: linear-gradient(to right bottom, rgba(255,255,255,0.2), #54bbfc 75%);
+		}
+
+		#SnapParent {
+			background-color: #ffffff;
+			margin: 2.5%;
+			/*padding: 30px 60px;*/
+			border-radius: 20px;
+			box-shadow: 0 3px 26px 0 rgba(0,0,0,0.20);
+			width: 95%;
+			height: 90%;
+			overflow: auto;
+			position: absolute;
+			/*scroll-snap-type: y proximity;*/
+			scroll-snap-align: top;
+		}
+		#SnapParent2 {
+			background-color: #ffffff;
+			margin: 2.5%;
+			/*padding: 30px 60px;*/
+			border-radius: 20px;
+			box-shadow: 0 3px 26px 0 rgba(0,0,0,0.20);
+			width: 95%;
+			height: 92%;
+			overflow: auto;
+			position: absolute;
+			/*scroll-snap-type: y proximity;*/
+			scroll-snap-align: top;
+		}
+
+
+		.footer-dark {
+			padding:15px 0;
+			color:#f0f9ff;
+			background-color:#282d32;
+		}
+
+		.footer-dark h3 {
+			margin-top:0;
+			margin-bottom:12px;
+			font-weight:bold;
+			font-size:16px;
+		}
+		.footer-dark ul {
+			padding:0;
+			list-style:none;
+			line-height:1.6;
+			font-size:14px;
+			margin-bottom:0;
+		}
+		.footer-dark ul a {
+			color:inherit;
+			text-decoration:none;
+			opacity:0.6;
+		}
+		.footer-dark ul a:hover {
+			opacity:0.8;
+		}
+		@media (max-width:767px) {
+			.footer-dark .item:not(.social) {
+				text-align:center;
+				padding-bottom:20px;
+			}
+		}
+		.footer-dark .item.text {
+			margin-bottom:36px;
+		}
+		@media (max-width:767px) {
+			.footer-dark .item.text {
+				margin-bottom:0;
+			}
+		}
+		@media (max-width:575.5px) {
+			.second{
+					position: relative;
+					top:-48px;
+					margin-bottom:-50px;
+			}
+		}
+		.footer-dark .item.text p {
+			opacity:0.6;
+			margin-bottom:0;
+		}
+		.footer-dark {
+			text-align:center;
+		}
+		@media (max-width:991px) {
+			.footer-dark {
+				text-align:center;
+				margin-top:20px;
+			}
+			.second{
+				padding-top:30px;
+			}
+		}
+		.second{
+				padding-top:30px;
+		}
+		.footer-dark .copyright {
+			text-align:center;
+			padding-top:0px;
+			opacity:0.3;
+			font-size:13px;
+			margin-bottom:0;
+		}
+		.row{
+				display:flex;
+				justify-content:center;
+		}
+
+		*{
+				box-sizing: border-box;
+		}
+		.circle{
+			position: absolute;
+			border-radius: 50%;
+			background: white;
+			animation: ripple 10s infinite;
+			box-shadow: 0px 0px 1px 0px #508fb9;
+		}
+		.small{
+			width: 10vw;
+			height: 10vw;
+			left: -5vw;
+			top: -5vw;
+		}
+		.medium{
+			width: 20vw;
+			height: 20vw;
+			left: -10vw;
+			top: -10vw;
+		}
+		.large{
+			width: 30vw;
+			height: 30vw;
+			left: -15vw;
+			top: -15vw;
+		}
+		.xlarge{
+			width: 40vw;
+			height: 40vw;
+			left: -20vw;
+			top: -20vw;
+		}
+		.xxlarge{
+			width: 50vw;
+			height: 50vw;
+			left: -25vw;
+			top: -25vw;
+		}
+		.small1{
+			width: 10vw;
+			height: 10vw;
+			right:  -5vw;
+			top:  -5vw;
+		}
+		.medium1{
+			width: 20vw;
+			height: 20vw;
+			right:  -10vw;
+			top:  -10vw;
+		}
+		.large1{
+			width: 30vw;
+			height: 30vw;
+			right:  -15vw;
+			top:  -15vw;
+		}
+		.xlarge1{
+			width: 40vw;
+			height: 40vw;
+			right:  -20vw;
+			top:  -20vw;
+		}
+		.xxlarge1{
+			width: 50vw;
+			height: 50vw;
+			right:  -25vw;
+			top:  -25vw;
+		}
+		.shade1{
+			opacity: 0.2;
+		}
+		.shade2{
+			opacity: 0.4;
+		}
+		.shade3{
+			opacity: 0.5;
+		}
+		.shade4{
+			opacity: 0.7;
+		}
+		.shade5{
+			opacity: 0.8;
+		}
+		@keyframes ripple{
+			0%{
+				transform: scale(0.8);
+			}
+			50%{
+				transform: scale(1.3);
+			}
+			100%{
+				transform: scale(0.8);
+			}
+		}
+		.logo {
+			width: 30vw;
+			padding: 0;
+		}
+
+		/* Create two equal columns that floats next to each other */
+		.row-cont {
+				margin-top:30px;
+				display: flex;
+				flex-direction: column;
+				width:100%;
+		}
+
+		/* Create two equal columns that sits next to each other */
+		.column {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+		}
+		.flowchart{
+			padding-top:10px;
+			width:70vw;
+			margin-left:3vw;
+
+		}
+		@media screen and (min-width:651px) {
+				.hidden_desktop {
+						display:none;
+				}
+		}
+		@media screen and (max-width:650px) {
+				.hidden_mobile {
+						display:none;
+				}
+				.flowchart{
+						width:50vw;
+						margin:10px;
+				}
+		}
+		li{
+				margin: 10px 0;
+		}
+		 .anychart-credits{
+		display: none;
+		}
+
+		.button {
+			font-size: 1em;
+			padding: 10px;
+			color: #ffffff;
+			border: 2px solid #049cfc;
+			animation: mymove 5s ease infinite alternate;
+			/*border-radius: 20px/50px;*/
+			border-radius: 5px;
+			text-decoration: none;
+			cursor: pointer;
+			transition: all 0.3s ease-out;
+		}
+		@keyframes mymove {
+			from {background-color: #c0d6fa;
+						border: 5px solid #c0d6fa;
+			}
+			to {background-color: #049cfc;
+					border: 5px solid #049cfc;;
+			}
+		}
+
+		.button:hover {
+			/*background: #ffffff;*/
+			color: yellow;
+		}
+
+		.overlay {
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background: rgba(0, 0, 0, 0.7);
+			transition: opacity 500ms;
+			visibility: hidden;
+			opacity: 0;
+		}
+		.overlay:target {
+			visibility: visible;
+			opacity: 1;
+		}
+		.popup {
+			margin: 45px auto;
+			padding: 20px;
+			background: #fff;
+			border-radius: 5px;
+			width: 70%;
+			height: 85%;
+			position: relative;
+			transition: all 5s ease-in-out;
+		}
+		.popup h2 {
+			margin-top: 0;
+			color: #333;
+			font-family: Tahoma, Arial, sans-serif;
+		}
+		.popup .close {
+			position: absolute;
+			top: 20px;
+			right: 30px;
+			transition: all 200ms;
+			font-size: 30px;
+			font-weight: bold;
+			text-decoration: none;
+			color: #333;
+		}
+		.popup .close:hover {
+			color: #06D85F;
+		}
+		.popup .content {
+			max-height: 90%;
+			overflow: auto;
+		}
+		@media screen and (max-width: 700px){
+			.box{
+				width: 70%;
+			}
+			.popup{
+				width: 70%;
+			}
+		}
+
+		@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+
+		*{
+				box-sizing: border-box;
+		}
+
+		.search-box{
+			width: fit-content;
+			height: fit-content;
+			position: relative;
+		}
+		.input-search{
+			height: 50px;
+			width: 50px;
+			border-style: none;
+			padding: 10px;
+			font-size: 18px;
+			letter-spacing: 2px;
+			outline: none;
+			border-radius: 25px;
+			transition: all .5s ease-in-out;
+			background-color: #22a6b3;
+			padding-right: 40px;
+			color:#fff;
+		}
+		.input-search::placeholder{
+			color:rgba(255,255,255,.5);
+			font-size: 18px;
+			letter-spacing: 2px;
+			font-weight: 100;
+		}
+		.btn-search{
+			width: 50px;
+			height: 50px;
+			border-style: none;
+			font-size: 20px;
+			font-weight: bold;
+			outline: none;
+			cursor: pointer;
+			border-radius: 50%;
+			position: absolute;
+			right: 0px;
+			color:#ffffff ;
+			background-color:transparent;
+			pointer-events: painted;
+		}
+		.btn-search:focus ~ .input-search{
+			width: 300px;
+			border-radius: 0px;
+			background-color: transparent;
+			border-bottom:1px solid rgba(255,255,255,.5);
+			transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+		}
+		.input-search:focus{
+			width: 300px;
+			border-radius: 0px;
+			background-color: transparent;
+			border-bottom:1px solid rgba(255,255,255,.5);
+			transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+		}
+
+		.slider {
+				position: absolute;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				cursor: pointer;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-color: #049cfc;
+				border-radius: 5px;
+		}
+
+		input:checked + .slider {
+				background-color: #cc2316;
+		}
+
+		.choice-container{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width:100vw;
+				margin-bottom: 1vh;
+
+
+		}
+		.choice-container .choices{
+				position: relative;
+				display: inline-block;
+				width: 80px;
+				height: 40px;
+				background-color: #36B5EB;
+				color: white;
+				display: block;
+				border-color: none;
+				border-radius: 5px;
+				padding: 0.5rem;
+
+				margin-left:1rem ;
+				font-size: 18px;
+				text-align: center;
+				cursor: pointer;
+		}
+		@media screen and (max-width: 1000px){
+				.choice-container .choices{
+
+						width: 50px;
+						height: 25px;
+
+						font-size: 11px;
+
+				}
+		}
+
+	</style>
+</head>
+
+<body>
+
+<!--style="vertical-align:middle; text-align:center"-->
+
+<div id="guide" class="overlay" style="position:absolute;z-index:10;">
+	<div class="popup">
+		<h2><b>Guide</b></h2>
+		<a class="close" href="#">&times;</a>
+		<div class="content">
+				<h4><b>Usage</b></h4>
+				<p>This tool provides a visualisation of sentiment according to tweets across the country. The data used for visualisation can be specified via a search term or defaulted via preset terms. </p>
+				<h6><b>Interactivity</b></h6>
+			<p>Hovering over a bubble on the map or individual words on the word clouds will display a popup with key information. You can click on a bubble to view it's corresponding word cloud. Double click anywhere else on the map to display the default word clouds. You can zoom in and out of the map by using the controls to the left side of the map. Scroll down under the word clouds to view a line graph displaying sentiment over an adjustable time period.</p>
+				<h6><b>Provided Data Analysis</b></h6>
+				<p>Upon loading the page this tool is populated with data collected using preset terms.</p>
+				<h6><b>Custom Data Analysis</b></h6>
+				<p>The search bar can be used to populate the tool with a user specified input. Searches support hashtags, username handles, and tweet contents.</p>
+				<h4><b>Display Information</b></h4>
+				<p>Each point of interest is displayed using 2 overlapping bubbles - 1 of which represents tweets and the other of which represents retweets; the sizes of which are explained below. The colour represents the general sentiment of the tweets/retweets in that location; the relevant key can be found below.</p>
+			<h6><b>Bubble Size</b></h6>
+			<p>The radius of each bubble is calculated based on the proportion of tweets/retweets in that location when compared with all other points of interest on the map.</p>
+			<h6><b>Bubble Colours</b></h6>
+			<p>The colour of each bubble indicates the sentiment in that location and is generated from the numerical score assigned from our data analysis.</p>
+
+						<p><b>Key:</b></p>
+
+			<div style="width:30px;height:30px;background:#cc2316;display:inline-block;border-radius:10px;vertical-align:middle;"></div>
+			<p style="display:inline-block;text-indent: 5px;">Very Unhappy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><tab></tab>
+						<div style="width:30px;height:30px;background:#fc7600;display:inline-block;border-radius:10px;vertical-align:middle;"></div>
+			<p style="display:inline-block;text-indent: 5px;">Unhappy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><tab></tab>
+						<div style="width:30px;height:30px;background:#fbff00;display:inline-block;border-radius:10px;vertical-align:middle;"></div>
+			<p style="display:inline-block;text-indent: 5px;">Neutral &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><tab></tab>
+						<div style="width:30px;height:30px;background:#00ff11;display:inline-block;border-radius:10px;vertical-align:middle;"></div>
+			<p style="display:inline-block;text-indent: 5px;">Happy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><tab></tab>
+						<div style="width:30px;height:30px;background:#049cfc;display:inline-block;border-radius:10px;vertical-align:middle;"></div>
+			<p style="display:inline-block;text-indent: 5px;">Very Happy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><tab></tab>
+		</div>
+	</div>
+</div>
+
+	<div id="Container_Logo" style="width: 100%; height: 100%; scroll-snap-align: start; overflow: hidden; position: relative;">
+
+			<div class='ripple-background'>
+			<div class='circle xxlarge shade1'></div>
+			<div class='circle xlarge shade2'></div>
+			<div class='circle large shade3'></div>
+			<div class='circle medium shade4'></div>
+			<div class='circle small shade5'></div>
+			<div class='circle xxlarge1 shade1'></div>
+			<div class='circle xlarge1 shade2'></div>
+			<div class='circle large1 shade3'></div>
+			<div class='circle medium1 shade4'></div>
+			<div class='circle small1 shade5'></div>
+		</div>
+		<div id="Logo" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+			<img src="https://raw.githubusercontent.com/NasimMM/MoodoftheNation/f3b8e17bc2dfd18cdd96734711a2559c325a6823/LOGOSVG.svg" class="rounded mx-auto d-block img-fluid logo"/>
+			<h1 style="color: white; font-size: 2.9vw; font-weight: 700;">Mood of the Nation</h1>
+			<p style="font-size: 1.2em; color: white;font-weight: 500;"><span id="rotate">this</span></p>
+						<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+						<script>
+							var terms = ["A new era of data analysis", "Developed by students at Imperial College London", "In conjunction with IBM"];
+							function rotateTerm() {
+								var ct = $("#rotate").data("term") || 0;
+								$("#rotate").data("term", ct == terms.length -1 ? 0 : ct + 1).text(terms[ct]).fadeIn().delay(4500).fadeOut(500, rotateTerm);
+							}
+							rotateTerm();
+						</script>
+						<br>
+						<div class="box" style="display:flex; justify-items:center">
+							<a class="button" href="#guide"><b>Guide</b></a>
+						</div>
+
+			</div>
+
+	</div>
+
+
+
+<div style="width: 100%; height: 100%; align-content: center; align-items: center; scroll-snap-align: start;">
+
+		<div id="SnapParent">
+				<div style="width: 100%; height: 5%; display: flex; justify-content: center; margin-top: 15px; margin-bottom: 15px;">
+						<h1 style="font-weight:bold;">Dashboard</h1>
+				</div>
+
+				<div class="choice-container" style="width: auto;">
+						<label class="choices">
+								<input type="radio" name="type" value="map" checked  onclick="getQ()" >
+								<span class="slider"><span class="op-text">Map</span></span>
+						</label>
+						<label class="choices">
+								<input type="radio" name="type" value="search" onclick="getQ()">
+								<span class="slider"><span class="op-text">Search</span></span>
+						</label>
+				</div>
+
+			<div id="main_cont" style="width: 100%; height: 80%; scroll-snap-align: start; display: flex; flex-direction: column;">
+
+						<div id="Main_Container" style="display: flex !important; flex-direction: row; align-items: center; width: 100%; height: 95%;">
+
+								<div id="LeftContainer" style="display: flex !important; flex-direction: column;  align-items: center; width: 50%; height: 100%;">
+									<div id= "Uni_Mood" style="display: flex; flex-direction: column; width:100%;">
+										<h4 id= "Uni" style="margin-left: 15px;"> Select a University</h4>
+										<h4 id= "Mood" style="margin-left: 15px;"> Mood </h4>
+									</div>
+										<div id="Map_Container"></div>
+								</div>
+
+								<div id="RightContainer" style="overflow: hidden; display:flex; flex-direction:column ; align-items: center;width: 50%; height: 100%; ">
+
+									<div class="choice-container">
+											<label class="choices">
+													<input type="radio" name="choice" value="words" checked onclick="getQ()">
+													<span class="slider"><span class="op-text">Words</span></span>
+											</label>
+											<label class="choices">
+													<input type="radio" name="choice" value="location" onclick="getQ()">
+													<span class="slider"><span class="op-text">Location</span></span>
+											</label>
+											<label class="choices">
+													<input type="radio" name="choice" value="trend" onclick="getQ()">
+													<span class="slider"><span class="op-text">Trend</span></span>
+											</label>
+									</div>
+
+								<div id="CloudA_ContainerContainer" style="width: 100%; height: 90%; scroll-snap-align: start;">
+												<div id="CloudA_Container" style="width: 100%; height: 100%;"></div>
+								</div>
+								<div id="CloudB_ContainerContainer" style="width: 100%; height: 90%;">
+									<div id="CloudB_Container" style="width: 100%; height: 100%;"></div>
+								</div>
+								<div id="CloudC_ContainerContainer" style="width: 100%; height: 90%; scroll-snap-align: start;">
+									<div id="CloudC_Container" style="width: 100%; height: 100%;"></div>
+								</div>
+						</div>
+
+						</div>
+				</div>
+
+			<div id="SearchPageDiv" style="width: 100%; height: 80%; scroll-snap-align:start;">
+				<div id="search_header" style="width: 100%; height: 15%; background-color: transparent; ">
+
+					<form id="id_form">
+						<div style="padding: 1%;">
+							<span style="display: flex; justify-content: center;">
+								<div style="margin-right:10px">
+										<label>Search:</label>
+										<input type="text" name="name" placeholder="#hashtag / @user / other" size="24" id="id_text" required/>
+								</div>
+								<div style="margin-right: 10px">
+										<label>Time Scale:</label>
+										<input type="number" name="number" placeholder="# Minutes" size="3" id="id_number" style="width: 35%" required/>
+								</div>
+
+								<input type="submit" value="Search" id="id_enter" style="background: #049cfc; color: white; border-radius: 5px; font-weight: bold; border-color: #049cfc; height:32px" onclick="timer_search()"/>
+								<h2 id="timedisplayer" style="margin-left: 10px; margin-bottom: 10px;"> </h2>
+							</span>
+						</div>
+					</form>
+
+				</div>
+
+				<div style="width: 100%; height: 80%; display: flex; flex-direction: row;">
+					<div id="SearchCloudA" style="width: 50%; height: 100%;"></div>
+					<div id="SearchCloudB" style="width: 50%; height: 100%;"></div>
+				</div>
+				<div style = "display: flex; justify-content: center; align-items: center">
+				<h2 id= "SearchMood">  </h2>
+				</div>
+			</div>
+
+		</div>
+</div>
+
+<div class="row-cont" >
+		<div id="SnapParent2">
+				<div class="column">
+						<h1 style="text-align: center; padding: 2%; font-weight:bold;">What we do?</h1>
+						<ol class="list_info" style="list-style: none; padding-right:10%">
+								<li >We have created a web accessible experience for companies to monitor their
+																						impact on university students across the country</li>
+								<li >We utilise the Twitter API and IBMs Natural Language Understanding API to analyse the happiness of  tweets related to the company and university. Understanding the sentiment of university tweets about a company can act as an
+																						indicator of the quality of company recruitment programs in universities.</li>
+								<li >The main features of the webpage include:
+										<ul>
+												<li>An interactive map of the UK displaying information such as the ‘Happiness’ of a university.
+												</li>
+												<li>The 20 most common words from tweets</li>
+												<li>The most common locations mentioned in tweets</li>
+												<li>The happiness trend of a university as a line graph</li>
+										</ul>
+								</li>
+						</ol>
+				</div>
+				<div class="column" >
+						<h1 style="text-align: center; padding: 0%; font-weight:bold;">How we do it?</h1>
+						<img class=" hidden_desktop flowchart img-responsive" src="https://github.com/moinbukhari/hello-world/blob/master/flowchart.png?raw=true">
+						<img class=" hidden_mobile flowchart img-responsive" src="https://github.com/moinbukhari/hello-world/blob/master/flowchart2.png?raw=true">
+				</div>
+		</div>
+</div>
+
+<div style="width: 100%; height: 100%;"></div>
+
+<div class="footer-dark">
+		<footer>
+				<div class="container">
+						<div class="row">
+								<div class="col-sm-6 col-md-3 item">
+										<h3>Brought to you by</h3>
+										<ul>
+												<li><a href="#">Arjun Ananth</a></li>
+												<li><a href="#">Moin Bukhari</a></li>
+												<li><a href="#">Nayan Kad</a></li>
+										</ul>
+								</div>
+								<div class="col-sm-6 col-md-3 item second">
+										<ul>
+												<li><a href="#">Jun Kim</a></li>
+												<li><a href="#">Nasim Mohammed</a></li>
+										</ul>
+								</div>
+								<div class="col-sm-6 col-md-3 item">
+										<h3>In Collaboration with</h3>
+										<ul>
+												<li><a href="#">IBM</a></li>
+												<li><a href="#">Imperial College London</a></li>
+										</ul>
+								</div>
+						</div>
+						<p class="copyright">Company Name © 2021</p>
+				</div>
+		</footer>
+</div>
+
+
+
+<!--SCRIPTS-->
+
+
+<!--Ajax Search Bar stuff-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+		$(document).ready(function(){
+				setupPage();
+		});
+		function setupPage(){
+				//$('#id_hello').hide();
+				$('#id_form').submit(onSubmitClicked);
+				enterbutton();
+		}
+		function processOK(response) {
+			console.log('AJAX Response:');
+				console.log(response);
+				if (response.identifyresponse){
+						//$('#id_textlang').text(langLookup(response.identifyresponse));
+				} else {
+						//$('#id_textlang').text('No response received from service');
+				}
+		}
+		function processNotOK() {
+				console.log('Error Processing');
+				//$('#id_textlang').text('Oops something went wrong');
+		}
+
+		// function refreshPage(time){
+		//   setTimeout(function () {
+		//       location.reload();
+		//     }, (time * 1000)+(10*1000));
+		// });
+
+		function invokeAjax(message) {
+				console.log('AJAX about to be invoked.');
+				console.log(message);
+				var ajaxData = {};
+				ajaxData.msgdata = message;
+				$.ajax({
+						type: 'POST',
+						url: 'search',
+						data: ajaxData,
+						success: processOK,
+						error: processNotOK
+				});
+		}
+		function onSubmitClicked(event){
+				// $('#id_hello').show();
+				event.preventDefault();
+				var txt = $('#id_text').val();
+				var time = $('#id_number').val();
+				invokeAjax({search: txt, time: time});
+				//refreshpage(time);
+		}
+		function enterbutton(){
+				$(function() {
+						$("form input").keypress(function (e) {
+						if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+								$('#id_enter').click();
+								return false;
+						} else {
+								return true;
+						}
+				});
+		});
+	}	
+</script>
+
+<!--UKMAP-->
+<div id="ac_style_countries-united-kingdom" style="display:none;">
+		#Map_Container {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+</div>
+<!--UKMAP Scripts-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+<script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+<script src="https://cdn.anychart.com/releases/v8/js/anychart-map.min.js"></script>
+<script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
+<script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
+<script src="https://cdn.anychart.com/geodata/2.1.1/countries/united_kingdom/united_kingdom.js"></script>
+<script>
+		(function(){
+				function ac_add_to_head(el){
+					var head = document.getElementsByTagName('head')[0];
+					head.insertBefore(el,head.firstChild);
+				}
+				function ac_add_link(url){
+					var el = document.createElement('link');
+					el.rel='stylesheet';el.type='text/css';el.media='all';el.href=url;
+					ac_add_to_head(el);
+				}
+				function ac_add_style(css){
+					var ac_style = document.createElement('style');
+					if (ac_style.styleSheet) ac_style.styleSheet.cssText = css;
+					else ac_style.appendChild(document.createTextNode(css));
+					ac_add_to_head(ac_style);
+				}
+				ac_add_link('https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css');
+				ac_add_link('https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css');
+				ac_add_style(document.getElementById("ac_style_countries-united-kingdom").innerHTML);
+				ac_add_style(".anychart-embed-countries-united-kingdom{width:100%;height:100%;}");
+		})();
+</script>
+<!--WordCloud Scripts-->
+<script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+<script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+
+<!--LineGraph-->
+<div id="ac_style_samples-stock-range-selection-05" style="display:none;">
+	#CloudC_Container {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+</div>
+<!--LineGraph Scripts-->
+<div id="anychart-embed-samples-stock-range-selection-05" class="anychart-embed anychart-embed-samples-stock-range-selection-05" style="display: none;">
+<script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-core.min.js?hcode=a0c21fc77e1449cc86299c5faa067dc4"></script>
+<script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-stock.min.js?hcode=a0c21fc77e1449cc86299c5faa067dc4"></script>
+<script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-ui.min.js?hcode=a0c21fc77e1449cc86299c5faa067dc4"></script>
+<script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-exports.min.js?hcode=a0c21fc77e1449cc86299c5faa067dc4"></script>
+<script src="https://cdn.anychart.com/csv-data/dji-daily-short.js"></script>
+
+<script>(function(){
+	function ac_add_to_head(el){
+		var head = document.getElementsByTagName('head')[0];
+		head.insertBefore(el,head.firstChild);
+	}
+	function ac_add_link(url){
+		var el = document.createElement('link');
+		el.rel='stylesheet';el.type='text/css';el.media='all';el.href=url;
+		ac_add_to_head(el);
+	}
+	function ac_add_style(css){
+		var ac_style = document.createElement('style');
+		if (ac_style.styleSheet) ac_style.styleSheet.cssText = css;
+		else ac_style.appendChild(document.createTextNode(css));
+		ac_add_to_head(ac_style);
+	}
+	ac_add_link('https://cdn.anychart.com/releases/8.10.0/css/anychart-ui.min.css?hcode=a0c21fc77e1449cc86299c5faa067dc4');
+	ac_add_style(document.getElementById("ac_style_samples-stock-range-selection-05").innerHTML);
+	ac_add_style(".anychart-embed-samples-stock-range-selection-05{width:600px;height:450px;}");
+	})();
+</script>
+
+<!--FireBase Scripts-->
+<script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-firestore.js"></script>
+
+
+<!--Main Code-->
+<script>
+
+//*********************************************************************************************************************************INITILISE VARIABLES****************************************************************************************************
+
+
+let words = 1;
+const rbs = document.querySelectorAll('input[name="choice"]');
+const rbs1 = document.querySelectorAll('input[name="type"]');
+// displayNames('default');
+
+// Your web app's Firebase configuration
+var firebaseConfig = {
+	apiKey: "AIzaSyDzlIhPxuvnnFaRD0YEZ8oqIleZluib5GA",
+	authDomain: "moodofthenation-e1c5d.firebaseapp.com",
+	projectId: "moodofthenation-e1c5d",
+	storageBucket: "moodofthenation-e1c5d.appspot.com",
+	messagingSenderId: "1022128732979",
+	appId: "1:1022128732979:web:13fb6d9e13ac703e535c46",
+	measurementId: "G-3MR6VGXKNM"
+};
+
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+let ds = []
+
+let ibm = [];
+let ibm2 = [];
+let ibm20 = [];
+let ibm_loc = [];
+let ibm_joy = [];
+
+let icl = [];
+let icl2 = [];
+let icl20 = [];
+let icl_joy = [];
+let icl_loc = [];
+let ox = [];
+let ox2 = [];
+let ox20 = [];
+let ox_loc = [];
+let ox_joy = [];
+let bham = [];
+let bham2 = [];
+let bham20 = [];
+let bham_loc = [];
+let bham_joy = [];
+let bristol = [];
+let bristol2 = [];
+let bristol20 = [];
+let bristol_loc = [];
+let bristol_joy = [];
+let cardiff = [];
+let cardiff2 = [];
+let cardiff20 = [];
+let cardiff_loc = [];
+let cardiff_joy = [];
+let durham = [];
+let durham2 = [];
+let durham20 = [];
+let durham_loc = [];
+let durham_joy = [];
+let edin = [];
+let edin2 = [];
+let edin20 = [];
+let edin_loc = [];
+let edin_joy = [];
+
+let ex = [];
+let ex2 = [];
+let ex20 = [];
+let ex_loc = [];
+let ex_joy = [];
+
+let glas = [];
+let glas2 = [];
+let glas20 = [];
+let glas_loc = [];
+let glas_joy = [];
+
+let kcl = [];
+let kcl2 = [];
+let kcl20 = [];
+let kcl_loc = [];
+let kcl_joy = [];
+
+let ucl = [];
+let ucl2 = [];
+let ucl20 = [];
+let ucl_loc = [];
+let ucl_joy = [];
+
+let leeds = [];
+let leeds2 = [];
+let leeds20 = [];
+let leeds_loc = [];
+let leeds_joy = [];
+
+let liv = [];
+let liv2 = [];
+let liv20 = [];
+let liv_loc = [];
+let liv_joy = [];
+
+let lse = [];
+let lse2 = [];
+let lse20 = [];
+let lse_loc = [];
+let lse_joy = [];
+
+
+let man = [];
+let man2 = [];
+let man20 = [];
+let man_loc = [];
+let man_joy = [];
+
+let shef = [];
+let shef2 = [];
+let shef20 = [];
+let shef_loc = [];
+let shef_joy = [];
+
+let camb = [];
+let camb2 = [];
+let camb20 = [];
+let camb_loc = [];
+let camb_joy = [];
+
+
+let search = [];
+let search2 = [];
+let search20 = [];
+let search_loc = [];
+let search_sent = [];
+let search_tweets = [];
+let search_retweets = [];
+
+var chart3;
+var chart4;
+
+
+
+
+//GetQ gets the radio button queries and displays relevant map or search outputs
+function getQ() {
+  	for(const rb1 of rbs1){
+		if(rb1.checked){
+			if(rb1.value == "map"){
+				document.getElementById("main_cont").style.display="flex";
+				document.getElementById("SearchPageDiv").style.display="none";
+				for (const rb of rbs) {
+					if (rb.checked) {
+						if (rb.value== "words"){
+							words=1;
+							displayNames('Select a University', -1, 0, 0);
+							document.getElementById("CloudA_ContainerContainer").style.display="flex";
+							document.getElementById("CloudB_ContainerContainer").style.display="none";
+							document.getElementById("CloudC_ContainerContainer").style.display="none";
+
+						}
+						else if (rb.value== "location"){
+							words=2;
+							displayNames('Select a University', -1, 0, 0);
+							document.getElementById("CloudB_ContainerContainer").style.display="flex";
+							document.getElementById("CloudA_ContainerContainer").style.display="none";
+							document.getElementById("CloudC_ContainerContainer").style.display="none";
+
+						}
+						else if (rb.value== "trend"){
+							words=3;
+							displayNames('Select a University', -1, 0, 0);
+							document.getElementById("CloudC_ContainerContainer").style.display="flex";
+							document.getElementById("CloudB_ContainerContainer").style.display="none";
+							document.getElementById("CloudA_ContainerContainer").style.display="none";
+						}
+					}
+				}
+			}
+			else if(rb1.value=="search"){
+				document.getElementById("main_cont").style.display="none";
+				document.getElementById("SearchPageDiv").style.display="block";
+			}
+		}
+	}
+}
+
+//Gets the uni clicked on and displays their mood
+function displayNames(name, mood, tweets, retweets){
+	document.getElementById("Uni").innerHTML = name;
+
+	var sentiment;
+
+
+	if(mood >= 0 && mood < 0.2 && tweets >0 && retweets > 0){
+		sentiment = "Very Unhappy";
+		// if(tweets == 0 && retweets == 0){
+		//   sentiment = "No tweets";
+		// }
+	}
+	else if(mood >= 0.2 && mood < 0.4){
+		sentiment = "Unhappy";
+	}
+	else if(mood >= 0.4 && mood < 0.6){
+		sentiment = "Neutral";
+	}
+	else if(mood >= 0.6 && mood < 0.8){
+		sentiment = "Happy";
+	}
+	else if(mood >= 0.8 && mood <= 1){
+		sentiment = "Very Happy";
+	}
+	else if(mood == "Retrieving Sentiment Information"){
+		sentiment = mood;
+	}
+	else{
+		sentiment = "No Sentiment Information to Display";
+	}
+	document.getElementById("Mood").innerHTML = sentiment;
+	return;
+}
+
+//displays the sentiment of the search term
+function displayNamesSearch(mood, tweets, retweets){
+	var sentiment;
+	if(tweets == 0 && retweets == 0){
+		sentiment = "No Sentiment Information to display"
+	}
+	if(mood >= 0 && mood < 0.2){
+		sentiment = "Very Unhappy";
+	}
+	else if(mood >= 0.2 && mood < 0.4){
+		sentiment = "Unhappy";
+	}
+	else if(mood >= 0.4 && mood < 0.6){
+		sentiment = "Neutral";
+	}
+	else if(mood >= 0.6 && mood < 0.8){
+		sentiment = "Happy";
+	}
+	else if(mood >= 0.8 && mood <= 1){
+		sentiment = "Very Happy";
+	}
+	else if(mood == "Retrieving Sentiment Information"){
+		sentiment = mood;
+	}
+
+	document.getElementById("SearchMood").innerHTML = sentiment;
+}
+
+function PullfromDB(){
+	return new Promise( function (resolve, reject) {
+		console.log("Pull from DB");
+
+		db.collection('20 ibm').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ibm.push(doc.data());
+				resolve(ibm);
+			})
+		})
+		console.log(ibm);
+
+		db.collection('location ibm').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ibm2.push(doc.data());
+				resolve(ibm2);
+			})
+		})
+
+		console.log(ibm2);
+
+		db.collection('University').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ds.push(doc.data());
+				resolve(ds);
+			})
+		})
+		console.log(ds);
+
+		db.collection('Line Graphs IBM').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ibm_joy.push(doc.data());
+				resolve(ibm_joy);
+			})
+		})
+
+		db.collection('Line Graphs ICL').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				icl_joy.push(doc.data());
+				resolve(icl_joy);
+			})
+		})
+
+		db.collection('Line Graphs Ox').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ox_joy.push(doc.data());
+				resolve(ox_joy);
+			})
+		})
+
+		db.collection('Line Graphs Birmingham').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				bham_joy.push(doc.data());
+				resolve(bham_joy);
+			})
+		})
+
+
+		db.collection('Line Graphs Bristol').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				bristol_joy.push(doc.data());
+				resolve(bristol_joy);
+			})
+		})
+
+		db.collection('Line Graphs Cardiff').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				cardiff_joy.push(doc.data());
+				resolve(cardiff_joy);
+			})
+		})
+
+		db.collection('Line Graphs Durham').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				durham_joy.push(doc.data());
+				resolve(durham_joy);
+			})
+		})
+
+		db.collection('Line Graphs Edinburgh').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				edin_joy.push(doc.data());
+				resolve(edin_joy);
+			})
+		})
+
+		db.collection('Line Graphs Exeter').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ex_joy.push(doc.data());
+				resolve(ex_joy);
+			})
+		})
+
+		db.collection('Line Graphs Glasgow').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				glas_joy.push(doc.data());
+				resolve(glas_joy);
+			})
+		})
+
+		db.collection('Line Graphs KCL').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				kcl_joy.push(doc.data());
+				resolve(kcl_joy);
+			})
+		})
+
+		db.collection('Line Graphs UCL').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ucl_joy.push(doc.data());
+				resolve(ucl_joy);
+			})
+		})
+
+		db.collection('Line Graphs Leeds').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				leeds_joy.push(doc.data());
+				resolve(leeds_joy);
+			})
+		})
+
+		db.collection('Line Graphs Liverpool').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				liv_joy.push(doc.data());
+				resolve(liv_joy);
+			})
+		})
+
+		db.collection('Line Graphs LSE').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				lse_joy.push(doc.data());
+				resolve(lse_joy);
+			})
+		})
+
+		db.collection('Line Graphs Manchester').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				man_joy.push(doc.data());
+				resolve(man_joy);
+			})
+		})
+
+		db.collection('Line Graphs Sheffield').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				shef_joy.push(doc.data());
+				resolve(shef_joy);
+			})
+		})
+
+		db.collection('20 icl').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				icl.push(doc.data());
+				resolve(icl);
+			})
+		})
+
+		db.collection('location icl').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				icl2.push(doc.data());
+				resolve(icl2);
+			})
+		})
+
+		db.collection('20 ox').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ox.push(doc.data());
+				resolve(ox);
+			})
+		})
+
+		db.collection('location ox').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ox2.push(doc.data());
+				resolve(ox2);
+			})
+		})
+		db.collection('20 bham').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+			bham.push(doc.data());
+			resolve(bham);
+			})
+		})
+
+		db.collection('location bham').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				bham2.push(doc.data());
+				resolve(bham2);
+			})
+		})
+
+		db.collection('20 bristol').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				bristol.push(doc.data());
+				resolve(bristol);
+			})
+		})
+
+		db.collection('location bristol').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				bristol2.push(doc.data());
+				resolve(bristol2);
+			})
+		})
+
+		db.collection('20 cardiff').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				cardiff.push(doc.data());
+				resolve(cardiff);
+			})
+		})
+
+		db.collection('location cardiff').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				cardiff2.push(doc.data());
+				resolve(cardiff2);
+			})
+		})
+
+		db.collection('20 durham').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				durham.push(doc.data());
+				resolve(durham);
+			})
+		})
+
+		db.collection('location durham').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				durham2.push(doc.data());
+				resolve(durham2);
+			})
+		})
+
+		db.collection('20 edin').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				edin.push(doc.data());
+				resolve(edin);
+			})
+		})
+
+		db.collection('location edin').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				edin2.push(doc.data());
+				resolve(edin2);
+			})
+		})
+
+		db.collection('20 ex').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ex.push(doc.data());
+				resolve(ex);
+			})
+		})
+
+		db.collection('location ex').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ex2.push(doc.data());
+				resolve(ex2);
+			})
+		})
+
+		db.collection('20 glasgow').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				glas.push(doc.data());
+				resolve(glas);
+			})
+		})
+
+		db.collection('location glasgow').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				glas2.push(doc.data());
+				resolve(glas2);
+			})
+		})
+
+		db.collection('20 kcl').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				kcl.push(doc.data());
+				resolve(kcl);
+			})
+		})
+
+		db.collection('location kcl').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				kcl2.push(doc.data());
+				resolve(kcl2);
+			})
+		})
+
+		db.collection('20 ucl').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ucl.push(doc.data());
+				resolve(ucl);
+			})
+		})
+
+		db.collection('location ucl').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				ucl2.push(doc.data());
+				resolve(ucl2);
+			})
+		})
+
+		db.collection('20 leeds').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				leeds.push(doc.data());
+				resolve(leeds);
+			})
+		})
+
+		db.collection('location leeds').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				leeds2.push(doc.data());
+				resolve(leeds2);
+			})
+		})
+
+		db.collection('20 liverpool').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				liv.push(doc.data());
+				resolve(liv);
+			})
+		})
+
+		db.collection('location liverpool').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				liv2.push(doc.data());
+				resolve(liv2);
+			})
+		})
+
+		db.collection('20 lse').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				lse.push(doc.data());
+				resolve(lse);
+			})
+		})
+
+		db.collection('location lse').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				lse2.push(doc.data());
+				resolve(lse2);
+			})
+		})
+
+		db.collection('20 manchester').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				man.push(doc.data());
+				resolve(man);
+			})
+		})
+
+		db.collection('location manchester').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				man2.push(doc.data());
+				resolve(man2);
+			})
+		})
+		db.collection('20 sheffield').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				shef.push(doc.data());
+				resolve(shef);
+			})
+		})
+
+		db.collection('location sheffield').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				shef2.push(doc.data());
+				resolve(shef2);
+			})
+		})
+
+		db.collection('20 cam').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				camb.push(doc.data());
+				resolve(camb);
+			})
+		})
+
+		db.collection('location cam').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				camb2.push(doc.data());
+				resolve(camb2);
+			})
+		})
+
+		db.collection('20 search').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				search.push(doc.data());
+				resolve(search);
+			})
+		})
+
+		db.collection('location search').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				search2.push(doc.data());
+				resolve(search2);
+			})
+		})
+
+		db.collection('Search Sentiment').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				search_sent.push(doc.data());
+				resolve(search_sent);
+				// console.log(search_sent[0].Mood);
+			})
+		})
+
+
+		db.collection('Search Tweets Number').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				search_tweets.push(doc.data());
+				resolve(search_tweets);
+			})
+		})
+		db.collection('Search Retweets Number').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				search_retweets.push(doc.data());
+				resolve(search_retweets);
+			})
+		})
+
+	});
+}
+
+function PullSearchDB(){
+	return new Promise(function(resolve, reject){
+		console.log("Pull for Search");
+		search=[];
+		db.collection('20 search').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				search.push(doc.data());
+				resolve(search);
+			})
+		})
+		console.log(search[0]);
+
+		search2=[];
+		
+		db.collection('location search').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				search2.push(doc.data());
+				resolve(search2);
+			})
+		})
+
+		console.log("HELLO");
+		console.log(search2[0]);
+
+		search_sent = [];
+		db.collection('Search Sentiment').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				search_sent.push(doc.data());
+				resolve(search_sent);
+			})
+		})
+		search_tweets = [];
+		db.collection('Search Tweets Number').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				search_tweets.push(doc.data());
+				resolve(search_tweets);
+			})
+		})
+		search_retweets = [];
+		db.collection('Search Retweets Number').get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				search_retweets.push(doc.data());
+				resolve(search_retweets);
+			})
+		})
+
+	});
+}
+
+function drawCloud(data, title, container){
+	chartA = anychart.tagCloud(data);
+	chartA.title(title)
+	chartA.angles([0])
+	chartA.container(container);
+	chartA.draw();
+	return chartA;
+}
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function startTimer(duration, display) {
+	console.log("HELLO");
+	var timer = duration, minutes, seconds;
+
+	var thing = setInterval(function () {
+
+		minutes = parseInt(timer / 60, 10);
+		seconds = parseInt(timer % 60, 10);
+		minutes = minutes < 10 ? "0" + minutes : minutes;
+		seconds = seconds < 10 ? "0" + seconds : seconds;
+		display.textContent = minutes + ":" + seconds;
+
+		if (--timer < 0) {
+			timer = 0,0,0;
+			clearInterval(thing);
+			console.log("Starting Delay");
+			sleep(1000).then(() => { 
+				
+				console.log("World!");
+				PullSearchDB().then(()=>{
+					sleep(3000).then(() => {
+
+						console.log("Delay Complete");
+						search20 = [];
+						search_loc = [];
+						console.log(search[0]);
+						console.log(search2[0]);
+						if (search.length != 0) {
+							for(var i = 0; i < Object.keys(search[0]).length ; i++){
+								search20.push({"x": search[0][i].x, "value": search[0][i].value});
+							}
+						}
+						if (search2.length != 0) {
+							for(var i = 0; i < Object.keys(search2[0]).length; i++){
+								search_loc.push({"x": search2[0][i].x, "value": search2[0][i].value});
+							}
+						}
+						chart3.dispose();
+						chart4.dispose();
+						console.log("Charts Disposed.");
+						chart3 = drawCloud(search20, '20 Most Common SEARCH', 'SearchCloudA');
+						console.log("Half way there");
+						chart4 = drawCloud(search_loc, 'Locations SEARCH', 'SearchCloudB');
+						console.log("Drawing Attempted.");
+					});
+
+				});
+			});
+		}
+	} , 1000);
+}
+
+function timer_search(){
+	console.log("Search Pressed.");
+	var time = document.getElementById("id_number").value * 60;
+	console.log(time);
+	display = document.querySelector('#timedisplayer');
+	startTimer(time, display);
+}
+
+
+getQ();		
+
+PullfromDB().then(function() {
+	console.log("Drawing function");
+	anychart.onDocumentReady(function() {
+
+		// displayNamesSearch(search_sent[0].Mood);
+		var map = anychart.map();
+		var dataSet = anychart.data.set(ds);
+		var tweets = dataSet.mapAs({name: 'Name', lat: 'Latitude', long: 'Longitude', size: 'Tweets' });
+		var series1 = map.bubble(tweets);
+		var retweets = dataSet.mapAs({name: 'Name', lat: 'Latitude', long: 'Longitude', size: 'Retweets' });
+		var series2 = map.bubble(retweets);
+		map.minBubbleSize(".5%");
+		map.maxBubbleSize("5%");
+		map.unboundRegions().fill('#C4D5E5')
+		map.unboundRegions().stroke('#C4D5E5');
+
+		map.geoData(anychart.maps['united_kingdom']);
+
+		//Credits NEED LICENSE KEY
+		//map.credits().enabled(false);
+		var zoomController = anychart.ui.zoom();
+		zoomController.render(map);
+		map.container('Map_Container');
+		map.tooltip(true);
+		series1.tooltip().enabled(false);
+		series2.tooltip().format("Tweets: {%Tweets} \nRetweets: {%Retweets} \nMood: {%Mood}");
+
+		map.draw();
+
+		//Line Graph Code draw to CloudC_Container
+		var dataTable = anychart.data.table("date");
+		dataTable.addData(leeds_joy);
+		anychart.format.inputDateTimeFormat('yyyy-MM-dd');
+		var mapping = dataTable.mapAs({value: "joy"});
+
+		line = anychart.stock();
+		line.plot().line(mapping);
+		var rangePicker = anychart.ui.rangePicker();
+		rangePicker.format('dd MM yyyy');
+		line.title("Trend in Happiness - IBM");
+		line.container("CloudC_Container");
+		line.draw();
+		line.selectRange("ytd");
+
+
+		//WordCloud Draw to CloudA_Container and CloudB_Container
+		var data1;
+		var data2;
+		var chart1;
+		var chart2;
+
+	
+		ibm20 = [];
+		ibm_loc = [];
+		for(var i = 0; i < Object.keys(ibm[0]).length; i++){
+			ibm20.push({"x": ibm[0][i].x, "value": ibm[0][i].value});
+		}
+		data1 = ibm20;
+		for(var i = 0; i < Object.keys(ibm2[0]).length; i++){
+			ibm_loc.push({"x": ibm2[0][i].x, "value": ibm2[0][i].value});
+		}
+		data2 = ibm_loc;
+
+		chart1 = anychart.tagCloud(data1);
+		chart2 = anychart.tagCloud(data2);
+		chart1.title('20 Most Common Words from Tweets')
+		chart2.title('Location Word Cloud')
+		chart1.angles([0])
+		chart2.angles([0])
+		chart1.container("CloudA_Container");
+		chart2.container("CloudB_Container");
+		chart1.draw();
+		chart2.draw();
+
+
+		map.listen("dblClick", function(e2) {
+
+			if(words==1){
+				chart1.dispose();
+				ibm20 = [];
+				for(var i = 0; i < 20; i++){
+					ibm20.push({"x": ibm[0][i].x, "value": ibm[0][i].value});
+				}
+				data1 = ibm20;
+				chart1 = anychart.tagCloud(data1);
+				chart1.angles([0])
+				chart1.container("CloudA_Container");
+			    chart1.title('20 Most Common Words from Tweets - IBM')
+				chart1.background().fill("transparent");
+				chart1.draw();
+			}
+			if(words==2){
+				chart2.dispose();
+				ibm_loc = [];
+				for(var i = 0; i < Object.keys(ibm2[0]).length; i++){
+					ibm_loc.push({"x": ibm2[0][i].x, "value": ibm2[0][i].value});
+				}
+				data2 = ibm_loc;
+				chart2 = anychart.tagCloud(data2);
+				chart2.angles([0])
+				chart2.title('Locations Mentioned in Tweets: ')
+				chart2.container("CloudB_Container");
+		
+				chart2.background().fill("transparent");
+				chart2.draw();
+			}
+			if(words==3){
+				line.dispose();
+				var dataTable = anychart.data.table("date");
+				dataTable.addData(ibm_joy);
+				anychart.format.inputDateTimeFormat('yyyy-MM-dd');
+				var mapping = dataTable.mapAs({value: "joy"});
+				line = anychart.stock();
+				line.plot().line(mapping);
+				var rangePicker = anychart.ui.rangePicker();
+				rangePicker.format('dd MM yyyy');
+				line.title("Trend in Happiness - IBM");
+				line.container("CloudC_Container");
+				line.draw();
+				line.selectRange("ytd");
+			}
+
+			displayNames('Select a University', -1, 0, 0);
+
+		});
+
+		map.bubble(tweets).listen("Click", function(e) {
+			getQ();
+			var dsarray_index = e.pointIndex;
+			console.log(ds[dsarray_index].Name);
+			displayNames(ds[dsarray_index].Name, ds[dsarray_index].Mood, ds[dsarray_index].Tweets, ds[dsarray_index].Retweets);
+			switch(ds[dsarray_index].Name){
+
+				case "Imperial College London":
+					icl20 = [];
+					icl_loc = [];
+					for(var i = 0; i < Object.keys(icl[0]).length; i++){
+							icl20.push({"x": icl[0][i].x, "value": icl[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(icl2[0]).length; i++){
+							icl_loc.push({"x": icl2[0][i].x, "value": icl2[0][i].value});
+						}
+					data1 = icl20;
+					console.log(data1);
+					data2 = icl_loc;
+					console.log(data2);
+					dataTable.addData(icl_joy);
+
+					break;
+
+				case "University of Oxford":
+					ox20 = [];
+					ox_loc = [];
+					for(var i = 0; i < Object.keys(ox[0]).length; i++){
+							ox20.push({"x": ox[0][i].x, "value": ox[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(ox2[0]).length; i++){
+							ox_loc.push({"x": ox2[0][i].x, "value": ox2[0][i].value});
+						}
+					data1 = ox20;
+					console.log(ox20);
+					data2 = ox_loc;
+					console.log(ox_loc);
+					dataTable.addData(ox_joy);
+					break;
+
+				case "University of Birmingham":
+					bham20 = [];
+					bham_loc = [];
+					for(var i = 0; i < Object.keys(bham[0]).length; i++){
+							bham20.push({"x": bham[0][i].x, "value": bham[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(bham2[0]).length; i++){
+							bham_loc.push({"x": bham2[0][i].x, "value": bham2[0][i].value});
+						}
+					data1 = bham20;
+					data2 = bham_loc;
+
+					dataTable.addData(bham_joy);
+					break;
+
+				case "University of Bristol":
+					bristol20 = [];
+					bristol_loc = [];
+					for(var i = 0; i < Object.keys(bristol[0]).length; i++){
+							bristol20.push({"x": bristol[0][i].x, "value": bristol[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(bristol2[0]).length; i++){
+							bristol_loc.push({"x": bristol2[0][i].x, "value": bristol2[0][i].value});
+						}
+					data1 = bristol20;
+					data2 = bristol_loc;
+
+					dataTable.addData(bristol_joy);
+					break;
+
+				case "University of Cardiff":
+					cardiff20 = [];
+					cardiff_loc = [];
+					for(var i = 0; i < Object.keys(cardiff[0]).length; i++){
+							cardiff20.push({"x": cardiff[0][i].x, "value": cardiff[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(cardiff2[0]).length; i++){
+							cardiff_loc.push({"x": cardiff2[0][i].x, "value": cardiff2[0][i].value});
+						}
+					data1 = cardiff20;
+					data2 = cardiff_loc;
+
+					dataTable.addData(cardiff_joy);
+					break;
+
+				case "University of Durham":
+					durham20 = [];
+					durham_loc = [];
+					for(var i = 0; i < Object.keys(durham[0]).length; i++){
+							durham20.push({"x": durham[0][i].x, "value": durham[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(durham2[0]).length; i++){
+							durham_loc.push({"x": durham2[0][i].x, "value": durham2[0][i].value});
+						}
+					data1 = durham20;
+					data2 = durham_loc;
+
+					dataTable.addData(durham_joy);
+					break;
+
+				case "University of Edinburgh":
+					edin20 = [];
+					edin_loc = [];
+					for(var i = 0; i < Object.keys(edin[0]).length; i++){
+							edin20.push({"x": edin[0][i].x, "value": edin[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(edin2[0]).length; i++){
+							edin_loc.push({"x": edin2[0][i].x, "value": edin2[0][i].value});
+						}
+					data1 = edin20;
+					data2 = edin_loc;
+
+					dataTable.addData(edin_joy);
+					break;
+
+				case "University of Exeter":
+					ex20 = [];
+					ex_loc = [];
+					for(var i = 0; i < Object.keys(ex[0]).length; i++){
+							ex20.push({"x": ex[0][i].x, "value": ex[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(ex2[0]).length; i++){
+							ex_loc.push({"x": ex2[0][i].x, "value": ex2[0][i].value});
+						}
+					data1 = ex20;
+					data2 = ex_loc;
+
+					dataTable.addData(ex_joy);
+					break;
+
+
+				case "University of Glasgow":
+					glas20 = [];
+					glas_loc = [];
+					for(var i = 0; i < Object.keys(glas[0]).length; i++){
+							glas20.push({"x": glas[0][i].x, "value": glas[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(glas2[0]).length; i++){
+							glas_loc.push({"x": glas2[0][i].x, "value": glas2[0][i].value});
+						}
+					data1 = glas20;
+					data2 = glas_loc;
+
+					dataTable.addData(glas_joy);
+					break;
+
+				case "King's College London":
+					kcl20 = [];
+					kcl_loc = [];
+					for(var i = 0; i < Object.keys(kcl[0]).length; i++){
+							kcl20.push({"x": kcl[0][i].x, "value": kcl[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(kcl2[0]).length; i++){
+							kcl_loc.push({"x": kcl2[0][i].x, "value": kcl2[0][i].value});
+						}
+					data1 = kcl20;
+					data2 = kcl_loc;
+
+					dataTable.addData(kcl_joy);
+					break;
+
+				case "University College London":
+					ucl20 = [];
+					ucl_loc = [];
+					for(var i = 0; i < Object.keys(ucl[0]).length; i++){
+							ucl20.push({"x": ucl[0][i].x, "value": ucl[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(ucl2[0]).length; i++){
+							ucl_loc.push({"x": ucl2[0][i].x, "value": ucl2[0][i].value});
+						}
+					data1 = ucl20;
+					data2 = ucl_loc;
+
+					dataTable.addData(ucl_joy);
+					break;
+
+				case "University of Leeds":
+					leeds20 = [];
+					leeds_loc = [];
+					for(var i = 0; i < Object.keys(leeds[0]).length; i++){
+							leeds20.push({"x": leeds[0][i].x, "value": leeds[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(leeds2[0]).length; i++){
+							leeds_loc.push({"x": leeds2[0][i].x, "value": leeds2[0][i].value});
+						}
+					data1 = leeds20;
+					data2 = leeds_loc;
+
+					dataTable.addData(leeds_joy);
+					break;
+
+				case "University of Liverpool":
+					liv20 = [];
+					liv_loc = [];
+					for(var i = 0; i < Object.keys(liv[0]).length; i++){
+							liv20.push({"x": liv[0][i].x, "value": liv[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(liv2[0]).length; i++){
+							liv_loc.push({"x": liv2[0][i].x, "value": liv2[0][i].value});
+						}
+					data1 = liv20;
+					data2 = liv_loc;
+
+					dataTable.addData(liv_joy);
+					break;
+
+				case "London School of Economics":
+					lse20 = [];
+					lse_loc = [];
+					for(var i = 0; i < Object.keys(lse[0]).length; i++){
+							lse20.push({"x": lse[0][i].x, "value": lse[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(lse2[0]).length; i++){
+							lse_loc.push({"x": lse2[0][i].x, "value": lse2[0][i].value});
+						}
+					data1 = lse20;
+					data2 = lse_loc;
+
+					dataTable.addData(lse_joy);
+					break;
+
+				case "University of Manchester":
+					man20 = [];
+					man_loc = [];
+					for(var i = 0; i < Object.keys(man[0]).length; i++){
+							man20.push({"x": man[0][i].x, "value": man[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(man2[0]).length; i++){
+							man_loc.push({"x": man2[0][i].x, "value": man2[0][i].value});
+						}
+					data1 = man20;
+					data2 = man_loc;
+
+					dataTable.addData(man_joy);
+					break;
+
+				case "University of Sheffield":
+					shef20 = [];
+					shef_loc = [];
+					for(var i = 0; i < Object.keys(shef[0]).length; i++){
+							shef20.push({"x": shef[0][i].x, "value": shef[0][i].value});
+						}
+					for(var i = 0; i < Object.keys(shef2[0]).length; i++){
+							shef_loc.push({"x": shef2[0][i].x, "value": shef2[0][i].value});
+						}
+					data1 = shef20;
+					data2 = shef_loc;
+
+					dataTable.addData(shef_joy);
+					break;
+
+				case "University of Cambridge":
+					camb20 = [];
+					camb_loc = [];
+					for(var i = 0; i < Object.keys(camb [0]).length; i++){
+							camb20.push({"x": camb[0][i].x, "value": camb[0][i].value});
+						}
+						console.log(camb);
+					for(var i = 0; i < Object.keys(camb2[0]).length; i++){
+							camb_loc.push({"x": camb2[0][i].x, "value": camb2[0][i].value});
+						}
+					data1 = camb20;
+					data2 = camb_loc;
+
+					dataTable.addData(camb_joy);
+					break;
+
+				default:
+
+			}
+
+			
+
+			if(words==1){
+				chart1.dispose();
+				chart1 = anychart.tagCloud(data1);
+				chart1.title('20 Most Common Words from Tweets')
+				chart1.angles([0]);
+				chart1.container("CloudA_Container");
+				chart1.background().fill("transparent");
+				chart1.draw();
+			}
+			if(words==2){
+				chart2.dispose();
+				chart2 = anychart.tagCloud(data2);
+				chart2.title('Locations Mentioned in Tweets: ')
+				chart2.angles([0]);
+				chart2.container("CloudB_Container");
+				chart2.background().fill("transparent");
+				chart2.draw();
+			}
+			if(words==3){
+				line.dispose();
+				anychart.format.inputDateTimeFormat('yyyy-MM-dd');
+				var mapping = dataTable.mapAs({value: "joy"});
+				line = anychart.stock();
+				line.plot().line(mapping);
+				var rangePicker = anychart.ui.rangePicker();
+				rangePicker.format('dd MM yyyy');
+				line.title("Trend in Happiness");
+				line.container("CloudC_Container");
+				line.draw();
+				line.selectRange("ytd");
+			}
+		});
+
+
+		search20 = [];
+		search_loc = [];
+		for(var i = 0; i < Object.keys(search[0]).length ; i++){
+			search20.push({"x": search[0][i].x, "value": search[0][i].value});
+		}
+		for(var i = 0; i < Object.keys(search2[0]).length; i++){
+			search_loc.push({"x": search2[0][i].x, "value": search2[0][i].value});
+		}
+		if(search_tweets != 0 || search_retweets != 0){
+			displayNamesSearch(search_sent[0].Mood, search_tweets, search_retweets);
+
+			// chart3 = drawCloud(search20, '20 Most Common Words from Tweets', 'SearchCloudA');
+			// chart4 = drawCloud(search_loc, 'Location Word Cloud', "SearchCloudB");
+
+			data3 = search20;
+			data4 = search_loc;
+			chart3 = anychart.tagCloud(data3);
+			chart4 = anychart.tagCloud(data4);
+			chart3.title('20 Most Common Words from Tweets')
+			chart4.title('Location Word Cloud')
+			chart3.angles([0])
+			chart4.angles([0])
+			chart3.container("SearchCloudA");
+			chart4.container("SearchCloudB");
+			chart3.draw();
+			chart4.draw();
+		}
+	});
+});
+
+ 
+
+	
+
+
+
+	
+
+</script>
+
+</body>
+</html>
