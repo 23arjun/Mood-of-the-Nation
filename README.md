@@ -13,6 +13,22 @@ In addition to IBM’s specifications for the website, we added a search bar fea
 
 **Files in the Repo**
 
+- MoodoftheNation.json
+
+JSON export of our Node-RED flow which was used to search and store tweets into our database, perform the data analysis (sentiment analysis and word cloud processing), store the results of the data analysis in Firestore and to create our webpage using HTML, CSS and JavaScript.
+
+- websitetemplate.html
+
+This file contains all the html, css and javascript used to design the website
+
+- 20MostCommonWords.js
+
+This file contains the function to find the 20 most common words in a collection of tweets. 
+
+- Locations mentioned in Tweets
+
+This file contains the function to find all the locations mentioned in tweets. 
+   
 
 
 
