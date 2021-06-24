@@ -11,7 +11,7 @@ In addition to IBM’s specifications for the website, we added a search bar fea
 
 
 **Link to the website**: http://noderedmk2.eu-gb.mybluemix.net/tweetsfinal
-
+- The website is currently only displaying the twitter information related to a university (rather than a university & IBM). This is because there are more tweets available for this search and gives a better demo for the website.
 
 **Files in the Repo**
 
