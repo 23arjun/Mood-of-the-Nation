@@ -10,8 +10,11 @@ IBM wanted a service to help them understand the ‘Happiness’ of various univ
 In addition to IBM’s specifications for the website, we added a search bar feature to allow users to search for and analyse any collection of tweets.
 
 
+**Link to the website**: http://noderedmk2.eu-gb.mybluemix.net/tweetsfinal
+
 
 **Files in the Repo**
+
 
 - MoodoftheNation.json
 
